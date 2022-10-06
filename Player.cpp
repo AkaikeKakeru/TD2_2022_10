@@ -8,7 +8,9 @@ void Player::Initilize(Model* model){
 	model_ = model;
 	worldTransform_.Initialize();
 	worldTransform_.translation_.x -= 20;
-	//viewProjection_.Initialize();
+
+	//シングルトンインスタンス
+	input_ = Input::GetInstance();
 }
 
 void Player::Update(){
@@ -39,26 +41,39 @@ void Player::Transfer(){
 }
 
 void Player::Move(){
-	//速度ベクトル
-	Vector3 speed = { 0,0,0 };
 	//経過時間(フレーム)
 	static float time = 0.0f;
 
-	//1F経過毎に
-	time += 1.0f;
+	if (input_->TriggerKey(DIK_SPACE)) {
+		ifBrake = true;
+	}
 
-	///緩急のある左右運動にしたい
-	///→sin使おうぜ！
-	//―つーことでX方向の移動速度を計算
-	speed.x = sin(time / 20);
+	if (ifBrake == true) {
+		speed.x = 0.0f;
+	}
+	else{
+		//1F経過毎に
+		time += 1.0f;
+
+		///緩急のある左右運動にしたい
+		///→自由研究でやったとこだ！sin使おうぜ！
+		//…てことでX方向の移動速度を計算
+		speed.x = sin(time / 20);
+
+		//フレーム単位で 指定時間 + 1F 経過したら
+		if (time > 120 + 1) {
+			//0に戻す
+			time = 0;
+		}
+	}
 
 	//オブジェクトの座標を移動
 	worldTransform_.translation_
 		+= speed;
+}
 
-	//フレーム単位で 指定時間 + 1F 経過したら
-	if (time > 120 + 1) {
-		//0に戻す
-		time = 0;
+void Player::Blow(){
+	if (input_->PushKey(DIK_SPACE)){
+
 	}
 }

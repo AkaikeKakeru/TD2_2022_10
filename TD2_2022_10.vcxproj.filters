@@ -55,6 +55,12 @@
     <Filter Include="ヘッダー ファイル\scene\MyMatrix">
       <UniqueIdentifier>{4c724307-dbe6-4b20-84ad-4e35bcb51fe2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\scene\Player">
+      <UniqueIdentifier>{715312b2-0d7b-4e2d-8c59-4d84b47b69b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\scene\Player">
+      <UniqueIdentifier>{59f20d49-0901-4b56-8b6c-d432d6881fc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -76,7 +82,10 @@
       <Filter>ソース ファイル\scene\MyMatrix</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\scene</Filter>
+      <Filter>ソース ファイル\scene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\scene\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +174,10 @@
       <Filter>ヘッダー ファイル\scene\MyMatrix</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル\scene</Filter>
+      <Filter>ヘッダー ファイル\scene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ヘッダー ファイル\scene\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

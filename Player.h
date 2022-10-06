@@ -2,9 +2,12 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include "ViewProjection.h"
+#include "Input.h"
+#include "DebugText.h"
 
 #include "MyMatrix.h"
 #include <math.h>
+
 class Player {
 
 public: //基本の関数	
@@ -23,6 +26,11 @@ public: //固有の関数
 	/// </summary>
 	void Move();
 
+	/// <summary>
+	/// 吹き飛ばす
+	/// </summary>
+	void Blow();
+
 private://よく使う変数
 	//モデル
 	Model* model_ = nullptr;
@@ -30,6 +38,18 @@ private://よく使う変数
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
 	//ViewProjection viewProjection_;
+	//インプット
+	Input* input_ = nullptr;
 
 	MyMatrix myMatrix_;
+
+	//デバッグテキスト
+	DebugText* debugText_ = nullptr;
+
+private: //固有の変数
+	//速度ベクトル
+	Vector3 speed = { 0,0,0 };
+	
+	//ブレーキ
+	bool ifBrake = false;
 };
