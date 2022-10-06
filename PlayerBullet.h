@@ -35,7 +35,7 @@ private://固有の変数
 	Vector3 velocity_;
 
 	//寿命<frm>
-	static const int32_t kLifeTime = 60 * 5;
+	static const int32_t kLifeTime = 60 * 2;
 	//デスタイマー
 	int32_t deathtimer_ = kLifeTime;
 	//デスフラグ

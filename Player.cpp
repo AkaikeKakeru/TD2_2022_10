@@ -14,12 +14,30 @@ void Player::Initilize(Model* model){
 }
 
 void Player::Update(){
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return bullet->IsDead();
+		});
+
 	Move();
+
+	Blow();
+
+	//弾更新
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Update();
+	}
+
 	Transfer();
 }
 
 void Player::Draw(const ViewProjection viewProjection){
 	model_->Draw(worldTransform_,viewProjection);
+
+	//弾描画
+	for(std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Draw(viewProjection);
+	}
 }
 
 void Player::Transfer(){
@@ -73,7 +91,28 @@ void Player::Move(){
 }
 
 void Player::Blow(){
-	if (input_->PushKey(DIK_SPACE)){
+	const float kBulletSpeed = 1.0f;
+	Vector3 bulletVelocity_ = Vector3(0, 0, kBulletSpeed);
 
+	Vector3 bulletPosition_ = 
+		Vector3(
+			worldTransform_.matWorld_.m[3][0],
+			worldTransform_.matWorld_.m[3][1],
+			worldTransform_.matWorld_.m[3][2]
+		);
+
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		//速度ベクトルを自機の向きにあわせる
+		bulletVelocity_ = myMatrix_.CrossVector(bulletVelocity_, worldTransform_.matWorld_);
+
+		//弾を生成し、初期化
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Intialize(model_,bulletPosition_,bulletVelocity_);
+
+		//弾を登録
+		//bullet_ = newBullet;
+		/*bullets_.reset(newBullet);*/
+		bullets_.push_back(std::move(newBullet));
 	}
 }

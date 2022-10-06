@@ -8,6 +8,8 @@
 #include "MyMatrix.h"
 #include <math.h>
 
+#include "PlayerBullet.h"
+
 class Player {
 
 public: //基本の関数	
@@ -47,6 +49,10 @@ private://よく使う変数
 	DebugText* debugText_ = nullptr;
 
 private: //固有の変数
+	//弾
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+
+
 	//速度ベクトル
 	Vector3 speed = { 0,0,0 };
 	
