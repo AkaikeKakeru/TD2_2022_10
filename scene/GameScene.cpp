@@ -15,6 +15,9 @@ GameScene::~GameScene() {
 
 	delete modelPlayer_;
 	modelPlayer_ = nullptr;
+
+	delete modelPlane_;
+	modelPlane_ = nullptr;
 }
 
 void GameScene::Initialize() {
@@ -27,10 +30,20 @@ void GameScene::Initialize() {
 	//モデルの生成
 	model_ = Model::Create();
 	modelPlayer_ = Model::Create();
+	modelPlane_ = Model::Create();
 
 	//自キャラ生成
 	player_ = std::make_unique<Player>();
-	player_->Initilize(modelPlayer_);
+	player_->Initialize(modelPlayer_);
+
+	//物生成
+	//plane_ = std::make_unique<Plane>();
+	//plane_->Initialize(modelPlane_);
+
+	//物の生成
+	std::unique_ptr<Plane> newPlane = std::make_unique<Plane>();
+	newPlane->Initialize(modelPlane_);
+	planes_.push_back(std::move(newPlane));
 
 #pragma region カメラ設定
 
@@ -245,6 +258,11 @@ void GameScene::Update() {
 #pragma endregion
 
 	player_->Update();
+
+	for (const std::unique_ptr<Plane>& plane : planes_) {
+		plane->Update();
+	}
+	//plane_->Update();
 }
 
 void GameScene::Draw() {
@@ -274,6 +292,11 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	player_->Draw(viewProjection_);
+
+	for (const std::unique_ptr<Plane>& plane : planes_) {
+		plane->Draw(viewProjection_);
+	}
+	//plane_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

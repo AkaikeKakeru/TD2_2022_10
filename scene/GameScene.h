@@ -14,9 +14,11 @@
 #include <random>
 
 #include <memory>
+#include <list>
 using namespace DirectX;
 
 #include "Player.h"
+#include "Plane.h"
 
 #define PI = XM_PI
 
@@ -77,6 +79,13 @@ private: // メンバ変数
 	//自機
 	std::unique_ptr<Player> player_;
 	Model* modelPlayer_ = nullptr;
+
+	//物
+	//std::unique_ptr<Plane> plane_;
+	//Model* modelPlane_ = nullptr;
+
+	std::list<std::unique_ptr<Plane>> planes_;
+	Model* modelPlane_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

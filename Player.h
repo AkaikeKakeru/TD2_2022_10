@@ -13,7 +13,7 @@
 class Player {
 
 public: //äÓñ{ÇÃä÷êî	
-	void Initilize(Model* model);
+	void Initialize(Model* model);
 	void Update();
 	void Draw(const ViewProjection viewProjection);
 
