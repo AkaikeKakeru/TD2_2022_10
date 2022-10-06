@@ -8,7 +8,13 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	delete debugCamera_;
+	debugCamera_ = nullptr;
+
 	delete model_;
+	model_ = nullptr;
+
+	delete modelPlayer_;
+	modelPlayer_ = nullptr;
 }
 
 void GameScene::Initialize() {
@@ -20,6 +26,11 @@ void GameScene::Initialize() {
 
 	//モデルの生成
 	model_ = Model::Create();
+	modelPlayer_ = Model::Create();
+
+	//自キャラ生成
+	player_ = std::make_unique<Player>();
+	player_->Initilize(modelPlayer_);
 
 #pragma region カメラ設定
 
@@ -232,6 +243,8 @@ void GameScene::Update() {
 	//			"nearZ:%f", XMConvertToDegrees(viewProjection_.nearZ));
 	//	}
 #pragma endregion
+
+	player_->Update();
 }
 
 void GameScene::Draw() {
@@ -260,6 +273,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	player_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

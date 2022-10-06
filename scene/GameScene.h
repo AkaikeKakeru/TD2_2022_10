@@ -16,6 +16,8 @@
 #include <memory>
 using namespace DirectX;
 
+#include "Player.h"
+
 #define PI = XM_PI
 
 /// <summary>
@@ -71,6 +73,10 @@ private: // メンバ変数
 
 	//デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
+
+	//自機
+	std::unique_ptr<Player> player_;
+	Model* modelPlayer_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

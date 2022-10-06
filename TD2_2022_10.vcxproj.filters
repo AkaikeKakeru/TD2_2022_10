@@ -75,6 +75,9 @@
     <ClCompile Include="MyMatrix\MyMatrix.cpp">
       <Filter>ソース ファイル\scene\MyMatrix</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3d\ViewProjection.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="MyMatrix\MyMatrix.h">
       <Filter>ヘッダー ファイル\scene\MyMatrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
