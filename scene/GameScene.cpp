@@ -40,11 +40,17 @@ void GameScene::Initialize() {
 	//plane_ = std::make_unique<Plane>();
 	//plane_->Initialize(modelPlane_);
 
-	//物の生成
-	std::unique_ptr<Plane> newPlane = std::make_unique<Plane>();
-	newPlane->Initialize(modelPlane_);
-	planes_.push_back(std::move(newPlane));
+	for (int i = 0; i < 5; i++)
+	{
+		//物の生成
+		std::unique_ptr<Plane> newPlane = std::make_unique<Plane>();
 
+		newPlane->Initialize(
+			modelPlane_,
+			Vector3(-20 + (i * 10), 0, 0)
+		);
+		planes_.push_back(std::move(newPlane));
+	}
 #pragma region カメラ設定
 
 	////カメラ垂直方向視野を設定

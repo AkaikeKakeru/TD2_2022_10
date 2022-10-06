@@ -1,6 +1,7 @@
 #include "Plane.h"
 
-void Plane::Initialize(Model* model){
+void Plane::Initialize(Model* model,
+	const Vector3& position){
 	//nullチェック
 	assert(model);
 
@@ -8,10 +9,11 @@ void Plane::Initialize(Model* model){
 	textureHandle_ = TextureManager::Load("mario.jpg");
 
 	worldTransform_.Initialize();
-	worldTransform_.translation_.z -= 30;
+	worldTransform_.translation_ = position;
 }
 
 void Plane::Update(){
+	Transfer();
 }
 
 void Plane::Draw(const ViewProjection viewProjection){
@@ -20,6 +22,22 @@ void Plane::Draw(const ViewProjection viewProjection){
 }
 
 void Plane::Transfer(){
+	//matrix
+	static Matrix4 scale;
+	static  Matrix4 rot;
+	static  Matrix4 translation;
+
+	//行列更新
+	scale = myMatrix_.MatrixScale(worldTransform_.scale_);
+	rot = myMatrix_.MatrixRotationZ(worldTransform_.rotation_);
+	rot *= myMatrix_.MatrixRotationX(worldTransform_.rotation_);
+	rot *= myMatrix_.MatrixRotationY(worldTransform_.rotation_);
+	translation = myMatrix_.MatrixTranslation(worldTransform_.translation_);
+
+	worldTransform_.matWorld_ = myMatrix_.MatrixWorld(scale, rot, translation);
+
+	//転送
+	worldTransform_.TransferMatrix();
 }
 
 void Plane::Move(){

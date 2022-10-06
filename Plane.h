@@ -9,7 +9,8 @@
 
 class Plane {
 public: //äÓñ{ÇÃä÷êî	
-	void Initialize(Model* model);
+	void Initialize(Model* model,
+		const Vector3& position);
 	void Update();
 	void Draw(const ViewProjection viewProjection);
 
