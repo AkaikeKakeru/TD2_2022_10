@@ -47,7 +47,7 @@ void GameScene::Initialize() {
 
 		newPlane->Initialize(
 			modelPlane_,
-			Vector3(-20 + (i * 10), 0, 0)
+			Vector3(-20 + (i * 10), 0, 10)
 		);
 		planes_.push_back(std::move(newPlane));
 	}
