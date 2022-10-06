@@ -24,8 +24,6 @@ private://よく使う変数
 	WorldTransform worldTransform_;
 	//モデル
 	Model* model_ = nullptr;
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
 	//ワールド変換行列
 	MyMatrix myMatrix_;
 
