@@ -1,11 +1,13 @@
 #include "Player.h"
 #include <cassert>
 
-void Player::Initilize(Model* model){
+void Player::Initilize(Model* model) {
 	//nullチェック
 	assert(model);
 
 	model_ = model;
+	textureHandle_ = TextureManager::Load("mario.jpg");
+
 	worldTransform_.Initialize();
 	worldTransform_.translation_.x -= 20;
 
@@ -13,14 +15,15 @@ void Player::Initilize(Model* model){
 	input_ = Input::GetInstance();
 }
 
-void Player::Update(){
+void Player::Update() {
 	//デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		return bullet->IsDead();
 		});
 
+	//移動
 	Move();
-
+	//吹き飛ばし
 	Blow();
 
 	//弾更新
@@ -28,19 +31,21 @@ void Player::Update(){
 		bullet->Update();
 	}
 
+	//転送
 	Transfer();
 }
 
-void Player::Draw(const ViewProjection viewProjection){
-	model_->Draw(worldTransform_,viewProjection);
+void Player::Draw(const ViewProjection viewProjection) {
+	//自分描画
+	model_->Draw(worldTransform_, viewProjection,textureHandle_);
 
 	//弾描画
-	for(std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Draw(viewProjection);
 	}
 }
 
-void Player::Transfer(){
+void Player::Transfer() {
 	//matrix
 	static Matrix4 scale;
 	static  Matrix4 rota;
@@ -58,18 +63,21 @@ void Player::Transfer(){
 	worldTransform_.TransferMatrix();
 }
 
-void Player::Move(){
+void Player::Move() {
 	//経過時間(フレーム)
 	static float time = 0.0f;
 
+	//押されたらブレーキフラグ
 	if (input_->TriggerKey(DIK_SPACE)) {
 		ifBrake = true;
 	}
 
+	//ブレーキフラグ立ってたら移動力0
 	if (ifBrake == true) {
 		speed.x = 0.0f;
 	}
-	else{
+	//立ってないなら左右に移動
+	else {
 		//1F経過毎に
 		time += 1.0f;
 
@@ -85,34 +93,49 @@ void Player::Move(){
 		}
 	}
 
-	//オブジェクトの座標を移動
+	//基本はオブジェクトの座標を、移動力分移動する
 	worldTransform_.translation_
 		+= speed;
 }
 
-void Player::Blow(){
+void Player::Blow() {
+	//弾速度
 	const float kBulletSpeed = 1.0f;
+	//速度ベクトル
 	Vector3 bulletVelocity_ = Vector3(0, 0, kBulletSpeed);
-
-	Vector3 bulletPosition_ = 
+	//発射位置
+	Vector3 bulletPosition_ =
 		Vector3(
 			worldTransform_.matWorld_.m[3][0],
 			worldTransform_.matWorld_.m[3][1],
 			worldTransform_.matWorld_.m[3][2]
 		);
 
-	if (input_->TriggerKey(DIK_SPACE))
-	{
-		//速度ベクトルを自機の向きにあわせる
-		bulletVelocity_ = myMatrix_.CrossVector(bulletVelocity_, worldTransform_.matWorld_);
+	//押されている間はブロウフラグを立てる
+	if (input_->PushKey(DIK_SPACE)){
+		ifBlow = true;
+	}
 
-		//弾を生成し、初期化
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Intialize(model_,bulletPosition_,bulletVelocity_);
+	//ブロウフラグが立ってるなら
+	if (ifBlow) {
+		//押されていないなら(離されたら)
+		if (!input_->PushKey(DIK_SPACE))
+		{
+			//速度ベクトルを自機の向きにあわせる
+			bulletVelocity_ = myMatrix_.CrossVector(bulletVelocity_, worldTransform_.matWorld_);
 
-		//弾を登録
-		//bullet_ = newBullet;
-		/*bullets_.reset(newBullet);*/
-		bullets_.push_back(std::move(newBullet));
+			//弾を生成し、初期化
+			std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+			newBullet->Intialize(model_, bulletPosition_, bulletVelocity_);
+
+			//弾を登録
+			//bullet_ = newBullet;
+			/*bullets_.reset(newBullet);*/
+			bullets_.push_back(std::move(newBullet));
+
+			//ブレーキフラグと、ブロウフラグを下げる
+			ifBlow = false;
+			ifBrake = false;
+		}
 	}
 }

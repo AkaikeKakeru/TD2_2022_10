@@ -36,6 +36,10 @@ public: //固有の関数
 private://よく使う変数
 	//モデル
 	Model* model_ = nullptr;
+
+	//テクスチャハンドル
+	uint32_t textureHandle_ = 0u;
+
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;
 	//ビュープロジェクション
@@ -51,7 +55,7 @@ private://よく使う変数
 private: //固有の変数
 	//弾
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-
+	bool ifBlow = false;
 
 	//速度ベクトル
 	Vector3 speed = { 0,0,0 };
