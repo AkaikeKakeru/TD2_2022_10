@@ -13,6 +13,7 @@ void Player::Initialize(Model* model) {
 
 	//シングルトンインスタンス
 	input_ = Input::GetInstance();
+	debugText_ = DebugText::GetInstance();
 }
 
 void Player::Update() {
@@ -23,8 +24,12 @@ void Player::Update() {
 
 	//移動
 	Move();
+
+	//チャージ
+	Charge();
+
 	//吹き飛ばし
-	Blow();
+	Blow(Charge());
 
 	//弾更新
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
@@ -92,11 +97,12 @@ void Player::Move() {
 		+= speed;
 }
 
-void Player::Blow() {
+void Player::Blow(int pow) {
 	//弾速度
-	const float kBulletSpeed = 1.0f;
+	float bulletSpeed = (pow * 0.02f);
+
 	//速度ベクトル
-	Vector3 bulletVelocity_ = Vector3(0, 0, kBulletSpeed);
+	Vector3 bulletVelocity_ = Vector3(0, 0, bulletSpeed);
 	//発射位置
 	Vector3 bulletPosition_ =
 		Vector3(
@@ -105,15 +111,16 @@ void Player::Blow() {
 			worldTransform_.matWorld_.m[3][2]
 		);
 
-	//押されている間はブロウフラグを立てる
-	if (input_->PushKey(DIK_SPACE)){
-		ifBlow = true;
-	}
+	////押されている間はブロウフラグを立てる
+	//if (input_->PushKey(DIK_SPACE)){
+	//	ifBlow = true;
+	//}
 
 	//ブロウフラグが立ってるなら
-	if (ifBlow) {
+	//if (ifBlow) {
 		//押されていないなら(離されたら)
-		if (!input_->PushKey(DIK_SPACE))
+		//if (!input_->PushKey(DIK_SPACE))
+	if(input_->ReleaseKey(DIK_SPACE))
 		{
 			//速度ベクトルを自機の向きにあわせる
 			bulletVelocity_ = myMatrix_.CrossVector(bulletVelocity_, worldTransform_.matWorld_);
@@ -128,8 +135,29 @@ void Player::Blow() {
 			bullets_.push_back(std::move(newBullet));
 
 			//ブレーキフラグと、ブロウフラグを下げる
-			ifBlow = false;
+			//ifBlow = false;
 			ifBrake = false;
 		}
+	//}
+}
+
+int Player::Charge(){
+	//パワー
+	static int pow = 0;
+
+	//押されているなら
+	if (input_->PushKey(DIK_SPACE)){
+		//チャージ量を増加
+		pow++;
+
+		//指定値をオーバーしたらパワーを0に
+		if (pow > 155) {
+			pow = 0;
+		}
 	}
+
+	debugText_->SetPos(10, 10);
+	debugText_->Printf("Power:%d", pow);
+
+	return pow;
 }

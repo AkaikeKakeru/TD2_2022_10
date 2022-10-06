@@ -72,6 +72,20 @@ class Input {
 	bool TriggerKey(BYTE keyNumber) const;
 
 	/// <summary>
+	/// キーのトリガーをチェック
+	/// </summary>
+	/// <param name="keyNumber">キー番号( DIK_0 等)</param>
+	/// <returns>トリガーか</returns>
+	bool ReleaseKey(BYTE keyNumber) const {
+		if (keyPre_[keyNumber]) {
+			if (!key_[keyNumber]) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	/// <summary>
 	/// 全キー情報取得
 	/// </summary>
 	/// <param name="keyStateBuf">全キー情報</param>

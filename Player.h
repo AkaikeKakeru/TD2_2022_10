@@ -31,7 +31,9 @@ public: //ŒÅ—L‚ÌŠÖ”
 	/// <summary>
 	/// ‚«”ò‚Î‚·
 	/// </summary>
-	void Blow();
+	void Blow(int pow);
+
+	int Charge();
 
 private://‚æ‚­g‚¤•Ï”
 	//ƒ‚ƒfƒ‹
