@@ -61,6 +61,12 @@
     <Filter Include="ソース ファイル\scene\Player">
       <UniqueIdentifier>{59f20d49-0901-4b56-8b6c-d432d6881fc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\scene\UI">
+      <UniqueIdentifier>{249a1c6c-5fff-488c-b1f3-25429964381e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\scene\Play">
+      <UniqueIdentifier>{cfa02c3f-8e0d-4a6c-ad3f-94fd04f2ec90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,6 +94,9 @@
       <Filter>ソース ファイル\scene\Player</Filter>
     </ClCompile>
     <ClCompile Include="Plane.cpp">
+      <Filter>ソース ファイル\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RailCamera.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -183,6 +192,9 @@
       <Filter>ヘッダー ファイル\scene\Player</Filter>
     </ClInclude>
     <ClInclude Include="Plane.h">
+      <Filter>ヘッダー ファイル\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RailCamera.h">
       <Filter>ヘッダー ファイル\scene</Filter>
     </ClInclude>
   </ItemGroup>

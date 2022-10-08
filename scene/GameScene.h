@@ -19,6 +19,7 @@ using namespace DirectX;
 
 #include "Player.h"
 #include "Plane.h"
+#include "RailCamera.h"
 
 #define PI = XM_PI
 
@@ -75,6 +76,9 @@ private: // メンバ変数
 
 	//デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
+
+	//レールカメラ
+	RailCamera* railCamera_ = nullptr;
 
 	//自機
 	std::unique_ptr<Player> player_;

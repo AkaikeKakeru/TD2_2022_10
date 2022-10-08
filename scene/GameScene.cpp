@@ -10,6 +10,9 @@ GameScene::~GameScene() {
 	delete debugCamera_;
 	debugCamera_ = nullptr;
 
+	delete railCamera_;
+	railCamera_ = nullptr;
+
 	delete model_;
 	model_ = nullptr;
 
@@ -71,6 +74,10 @@ void GameScene::Initialize() {
 
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 800);
+
+	//レールカメラの生成
+	railCamera_ = new RailCamera();
+	railCamera_->Initialize();
 
 	//軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
@@ -250,12 +257,16 @@ void GameScene::Update() {
 	//	}
 #pragma endregion
 
+	railCamera_->Update();
+
 	player_->Update();
 
 	for (const std::unique_ptr<Plane>& plane : planes_) {
 		plane->Update();
 	}
 	//plane_->Update();
+
+
 }
 
 void GameScene::Draw() {
