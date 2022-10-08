@@ -20,6 +20,7 @@ using namespace DirectX;
 #include "Player.h"
 #include "Plane.h"
 #include "RailCamera.h"
+#include "Skydome.h"
 
 #define PI = XM_PI
 
@@ -79,6 +80,9 @@ private: // メンバ変数
 
 	//レールカメラ
 	RailCamera* railCamera_ = nullptr;
+
+	//背景天球
+	std::unique_ptr<Skydome> skydome_;
 
 	//自機
 	std::unique_ptr<Player> player_;
