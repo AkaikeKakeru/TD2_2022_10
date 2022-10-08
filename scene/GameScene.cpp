@@ -21,6 +21,9 @@ GameScene::~GameScene() {
 
 	delete modelPlane_;
 	modelPlane_ = nullptr;
+
+	delete modelSkydome_;
+	modelSkydome_ = nullptr;
 }
 
 void GameScene::Initialize() {
@@ -34,6 +37,7 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	modelPlayer_ = Model::Create();
 	modelPlane_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("skydome",true);
 
 	//背景天球生成
 	skydome_ = std::make_unique<Skydome>();

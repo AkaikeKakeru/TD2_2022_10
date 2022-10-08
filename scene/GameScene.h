@@ -83,6 +83,7 @@ private: // メンバ変数
 
 	//背景天球
 	std::unique_ptr<Skydome> skydome_;
+	Model* modelSkydome_ = nullptr;
 
 	//自機
 	std::unique_ptr<Player> player_;
