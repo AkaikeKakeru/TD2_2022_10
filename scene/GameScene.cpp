@@ -41,7 +41,7 @@ void GameScene::Initialize() {
 
 	//背景天球生成
 	skydome_ = std::make_unique<Skydome>();
-	skydome_->Initialize();
+	skydome_->Initialize(modelSkydome_);
 
 	//自キャラ生成
 	player_ = std::make_unique<Player>();
@@ -319,7 +319,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 
-	skydome_->Draw();
+	skydome_->Draw(viewProjection_);
+
 	player_->Draw(viewProjection_);
 
 	for (const std::unique_ptr<Plane>& plane : planes_) {
