@@ -30,6 +30,9 @@ public: // 固有のメンバ関数
 	/// </summary>
 	void UpdateViewProjection();
 
+public: //ゲッター
+	const ViewProjection& GetViewProjection() { return viewProjection_; }
+
 private://よく使うメンバ変数
 	//ワールドトランスフォーム
 	WorldTransform worldTransform_;

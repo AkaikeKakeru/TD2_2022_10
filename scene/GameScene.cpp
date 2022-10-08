@@ -87,7 +87,7 @@ void GameScene::Initialize() {
 	//軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_ /*&debugCamera_->GetViewProjection()*/);
 
-	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
+	PrimitiveDrawer::GetInstance()->SetViewProjection(&viewProjection_/*&debugCamera_->GetViewProjection()*/);
 }
 
 void GameScene::Update() {
@@ -119,22 +119,9 @@ void GameScene::Update() {
 	debugText_->Printf(
 		"SPACEkey -> Shot");
 
-	if (isDebugCameraActive_) {
-		//デバッグカメラの更新
-		debugCamera_->Update();
 
-		//ビュー行列とプロジェクション行列を取得
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 
-		//転送
-		viewProjection_.TransferMatrix();
-	}
-	else {
-		//再計算と転送
-		viewProjection_.UpdateMatrix();
-		viewProjection_.TransferMatrix();
-	}
+
 #pragma endregion
 
 #pragma region 視点処理
@@ -260,7 +247,30 @@ void GameScene::Update() {
 	//	}
 #pragma endregion
 
-	railCamera_->Update();
+	
+
+	if (isDebugCameraActive_) {
+		//デバッグカメラの更新
+		debugCamera_->Update();
+
+		//ビュー行列とプロジェクション行列を取得
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+
+		//転送
+		viewProjection_.TransferMatrix();
+	}
+	else {
+		railCamera_->Update();
+
+		//ビュー行列とプロジェクション行列を取得
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+
+		//再計算と転送
+		viewProjection_.UpdateMatrix();
+		viewProjection_.TransferMatrix();
+	}
 
 	player_->Update();
 

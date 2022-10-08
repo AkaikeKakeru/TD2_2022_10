@@ -7,7 +7,11 @@ void RailCamera::Initialize(
 	worldTransform_.Initialize();
 	worldTransform_.scale_ = Vector3(1, 1, 1);
 	worldTransform_.translation_ = position;
-	worldTransform_.rotation_ = radian;
+	worldTransform_.rotation_ =
+		Vector3(
+			XMConvertToRadians(radian.x),
+			XMConvertToRadians(radian.y),
+			XMConvertToRadians(radian.z));
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -37,12 +41,32 @@ void RailCamera::Update(){
 		viewProjection_.eye.y,
 		viewProjection_.eye.z
 		);
+
+	debugText_->SetPos(400,220);
+	debugText_->Printf(
+		"target:%f,%f,%f",
+		viewProjection_.target.x,
+		viewProjection_.target.y,
+		viewProjection_.target.z
+	);
+
+	debugText_->SetPos(400,240);
+	debugText_->Printf(
+		"up:%f,%f,%f",
+		viewProjection_.up.x,
+		viewProjection_.up.y,
+		viewProjection_.up.z
+	);
 }
 
 void RailCamera::Move(){
-	worldTransform_.translation_.z++;
+	worldTransform_.translation_.z--;
 
-	worldTransform_.rotation_.z++;
+	worldTransform_.rotation_.z += 0.1f;
+
+	XMConvertToRadians(worldTransform_.rotation_.x);
+	XMConvertToRadians(worldTransform_.rotation_.y);
+	XMConvertToRadians(worldTransform_.rotation_.z);
 }
 
 void RailCamera::UpdateWorldTransform(){
@@ -64,6 +88,7 @@ void RailCamera::UpdateWorldTransform(){
 }
 
 void RailCamera::UpdateViewProjection(){
+
 	viewProjection_.eye =
 		Vector3(
 			worldTransform_.matWorld_.m[0][3],
@@ -77,8 +102,9 @@ void RailCamera::UpdateViewProjection(){
 	//レールカメラの回転を反映
 	forward = Vector3Transform(forward,worldTransform_.matWorld_);
 
-	//視点から前方に適当な距離進んだ一が注視点
+	//視点から前方に適当な距離進んだ位置が注視点
 	viewProjection_.target = viewProjection_.eye + forward;
+
 
 	//上方ベクトル
 	Vector3 up(0,1,0);
