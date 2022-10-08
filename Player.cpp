@@ -25,9 +25,6 @@ void Player::Update() {
 	//移動
 	Move();
 
-	//チャージ
-	Charge();
-
 	//吹き飛ばし
 	Blow(Charge());
 
@@ -86,9 +83,7 @@ void Player::Move() {
 		//1F経過毎に
 		time += 1.0f;
 
-		///緩急のある左右運動にしたい
-		///→自由研究でやったとこだ！sin使おうぜ！
-		//…てことでX方向の移動速度を計算
+		//緩急のある左右運動にしたい
 		speed.x = sin(time / 20);
 	}
 
